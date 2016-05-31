@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_deckbuilder_card"
+    android:gravity="center_vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/item_deckbuilder_card_qty"
+        android:layout_centerVertical="true"
+        android:textColor="@color/colorWhite"
+        android:textAlignment="center"
+        android:textSize="@dimen/standard_text_size"
+        android:text="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15">
+    </TextView>
+
+    <ImageView
+        android:id="@+id/item_deckbuilder_card_faction"
+        android:src="@drawable/icon_space_marines"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.15"/>
+
+    <TextView
+        android:id="@+id/item_deckbuilder_card_name"
+        android:textColor="@color/colorWhite"
+        android:text="Captain Cato Sicarius"
+        android:textAlignment="center"
+        android:textSize="@dimen/standard_text_size"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.7">
+    </TextView>
+</LinearLayout>

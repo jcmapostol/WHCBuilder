@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Conquest Deckbuilder</string>
+    <string name="btn_create_deck_text">Deckbuild</string>
+    <string name="btn_view_cards_text">Cardpool</string>
+    <string name="btn_exit_text">Exit</string>
+    <string name="main_drawer_open">Open</string>
+    <string name="main_drawer_close">Closed</string>
+</resources>

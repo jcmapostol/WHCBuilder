@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:color/holo_blue_dark">
+
+        <ImageView
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_search" />
+
+        <EditText
+            android:id="@+id/tv_drawer_lex_search"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="72dp"
+            android:background="@color/colorWhite"
+            android:text="Search"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="@dimen/standard_text_size"
+            android:layout_centerVertical="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:text="Search Results"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="@dimen/standard_text_size" />
+
+    <ListView
+        android:id="@+id/lv_drawer_lex"
+        android:paddingBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/black"
+        android:dividerHeight="2dp">
+    </ListView>
+</LinearLayout>
