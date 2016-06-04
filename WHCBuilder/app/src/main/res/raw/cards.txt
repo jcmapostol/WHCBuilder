@@ -1656,7 +1656,7 @@
       "shields":1
     },
     {
-      "name":"Altar of Torment",
+      "name":"• Altar of Torment",
       "loyalty":"NO",
       "faction":"DE",
       "cardtype":"SU",
@@ -2586,7 +2586,7 @@
   ],
   "scourge":[
     {
-      "name":"Ku’gath Plaguefather",
+      "name":"• Ku’gath Plaguefather",
       "loyalty":"NO",
       "faction":"CH",
       "cardtype":"WR",
@@ -2862,7 +2862,7 @@
   ],
   "ethereals":[
     {
-      "name":"Aun’shi",
+      "name":"• Aun’shi",
       "loyalty":"NO",
       "faction":"TA",
       "cardtype":"WR",
@@ -3143,7 +3143,7 @@
   ],
   "curse":[
     {
-      "name":"Old Zogwort",
+      "name":"• Old Zogwort",
       "loyalty":"NO",
       "faction":"OR",
       "cardtype":"WR",
@@ -3424,7 +3424,7 @@
   ],
   "threat":[
     {
-      "name":"Torquemada Coteaz",
+      "name":"• Torquemada Coteaz",
       "loyalty":"NO",
       "faction":"AM",
       "cardtype":"WR",
@@ -3545,7 +3545,7 @@
       "shields":2
     },
     {
-      "name":"Snake Bite Thug",
+      "name":"Snakebite Thug",
       "loyalty":"NO",
       "faction":"OR",
       "cardtype":"AR",
@@ -3707,7 +3707,7 @@
   ],
   "isha":[
     {
-      "name":"Baharroth",
+      "name":"• Baharroth",
       "loyalty":"NO",
       "faction":"EL",
       "cardtype":"WR",
@@ -3791,7 +3791,7 @@
     },
     {
       "name":"• Urien Rakarth",
-      "loyalty":"SG",
+      "loyalty":"NO",
       "faction":"DE",
       "cardtype":"WR",
       "cardtext":"Scholar. Haemonculus. The cost for you to play each Torture event is reduced by 1. The cost for you to play each non-Torture event is increased by 1.",
@@ -4038,7 +4038,7 @@
   ],
   "devourer":[
     {
-      "name":"“Old One Eye”",
+      "name":"• “Old One Eye”",
       "loyalty":"NO",
       "faction":"TY",
       "cardtype":"WR",
@@ -4122,7 +4122,7 @@
     },
     {
       "name":"• “The Swarmlord”",
-      "loyalty":"SG",
+      "loyalty":"NO",
       "faction":"TY",
       "cardtype":"WR",
       "cardtext":"Creature. Behemoth. Reaction: After this warlord commits to a planet, put 1 Termagant token into play at each adjacent planet.",
@@ -4843,7 +4843,7 @@
   ],
   "decree":[
     {
-      "name":"Broderick Worr",
+      "name":"• Broderick Worr",
       "loyalty":"NO",
       "faction":"AM",
       "cardtype":"WR",
@@ -4927,7 +4927,7 @@
     },
     {
       "name":"• Commander Starblaze",
-      "loyalty":"SG",
+      "loyalty":"NO",
       "faction":"TA",
       "cardtype":"WR",
       "cardtext":"Soldier. Shas’o. You may include common [ASTRA MILITARUM] cards in your deck, but cannot include other out of faction cards. Reaction: After this warlord commits to a planet, move 1 [ASTRA MILITARUM] unit you control from an adjacent planet to this planet.",
@@ -5037,7 +5037,7 @@
       ]
     },
     {
-      "name":"Accept any Challenge",
+      "name":"Accept Any Challenge",
       "loyalty":"NO",
       "faction":"SM",
       "cardtype":"EV",
@@ -5181,7 +5181,7 @@
   ],
   "hate":[
     {
-      "name":"Ba’ar Zul the Hate-Bound",
+      "name":"• Ba’ar Zul the Hate-Bound",
       "loyalty":"NO",
       "faction":"CH",
       "cardtype":"WR",
@@ -5265,7 +5265,7 @@
     },
     {
       "name":"• Archon Salaine Morn",
-      "loyalty":"SG",
+      "loyalty":"NO",
       "faction":"DE",
       "cardtype":"WR",
       "cardtext":"Warrior. Archon. Reaction: After a Kabalite or Raider unit enters play under your control at a [Material] planet (red), gain 1[Resource]. (Limit once per phase.)",
@@ -5394,7 +5394,7 @@
       "cardnumber":38
     },
     {
-      "name":"Front line ‘Ard Boyz",
+      "name":"Frontline ‘Ard Boyz",
       "loyalty":"NO",
       "faction":"OR",
       "cardtype":"AR",
@@ -5519,7 +5519,7 @@
   ],
   "salvage":[
     {
-      "name":"Gorzod",
+      "name":"• Gorzod",
       "loyalty":"NO",
       "faction":"OR",
       "cardtype":"WR",
@@ -5808,7 +5808,7 @@
   ],
   "lurks":[
     {
-      "name":"“Subject: Ω-X62113”",
+      "name":"• “Subject: Ω-X62113”",
       "loyalty":"NO",
       "faction":"TY",
       "cardtype":"WR",
@@ -6092,7 +6092,7 @@
   ],
   "crusaders":[
     {
-      "name":"Chaplain Mavros",
+      "name":"• Chaplain Mavros",
       "loyalty":"NO",
       "faction":"SM",
       "cardtype":"WR",
@@ -6394,7 +6394,7 @@
   ],
   "gambit":[
     {
-      "name":"Talyesin Fharenal",
+      "name":"• Talyesin Fharenal",
       "loyalty":"NO",
       "faction":"EL",
       "cardtype":"WR",
@@ -6707,8 +6707,8 @@
           6
         ],
         "bloody":[
-          2,
-          5
+          1,
+          6
         ],
         "squad":[
           [
@@ -6790,8 +6790,8 @@
           7
         ],
         "bloody":[
-          2,
-          5
+          1,
+          6
         ],
         "squad":[
           [
@@ -7539,7 +7539,7 @@
       "cardtype":"AT",
       "cost":"1",
       "cardtext":"Wargear. Weapon. Attach to your warlord. Reaction: After you Deep Strike a card, attached unit gets +1 ATK and +1 HP until the end of the phase.",
-      "cardnumber":24,
+      "cardnumber":25,
       "shields":3
     },
     {

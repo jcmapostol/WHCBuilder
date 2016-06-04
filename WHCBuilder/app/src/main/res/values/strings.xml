@@ -5,4 +5,8 @@
     <string name="btn_exit_text">Exit</string>
     <string name="main_drawer_open">Open</string>
     <string name="main_drawer_close">Closed</string>
+    <string name="str_draft">Draft</string>
+    <string name="str_lex">Lexicanum</string>
+    <string name="str_exterminatus">Exterminatus</string>
+    <string name="str_reserve">Reserves</string>
 </resources>

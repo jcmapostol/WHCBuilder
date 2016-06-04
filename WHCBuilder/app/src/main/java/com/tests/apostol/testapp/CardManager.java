@@ -2,7 +2,6 @@ package com.tests.apostol.testapp;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -13,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,61 +22,71 @@ import java.util.List;
 import java.util.Map;
 
 public class CardManager {
-    HashMap<String, Card> _cardDatabase;
-    HashMap<Integer, Card> _cardByIdDatabase;
-    HashMap<String, List<Pair<Card, Integer>>> _squadDatabase;
-
-    String[] _cardCols;
-    String _cardTableName;
-    String _squadTableName;
-    String[] _squadCols;
-
-    public boolean isReady;
     private static CardManager _instance;
-
-    public static CardManager getInstance() {
-        return _instance;
-    }
     public static CardManager createAndGetInstance(Context c) {
         if (_instance == null)
             _instance = new CardManager(c);
 
         return _instance;
     }
+    public static CardManager getInstance() {
+        return _instance;
+    }
+
+    private HashMap<String, Card> _cardDatabase;
+    private HashMap<Integer, Card> _cardByIdDatabase;
+    private HashMap<String, List<Pair<Card, Integer>>> _squadDatabase;
+
+    private String[] _cardCols;
+    private String[] _unitCols;
+    private String[] _warlordCols;
+    private String[] _squadCols;
 
     private CardManager(Context c) {
         _cardDatabase = new HashMap<>();
         _cardByIdDatabase = new HashMap<>();
         _squadDatabase = new HashMap<>();
-
-        _cardTableName = CardDbContract.CardListEntry.TABLE_NAME;
-        _squadTableName = CardDbContract.SquadDefEntry.TABLE_NAME;
-
-        _squadCols = new String[]
-        {
-            CardDbContract.COL_ID,
-            CardDbContract.SquadDefEntry.COL_WARID,
-            CardDbContract.SquadDefEntry.COL_CARDID,
-            CardDbContract.SquadDefEntry.COL_QTY
+        _cardCols = new String[] {
+                CardDbContract.COL_ID,
+                CardDbContract.CardListEntry.COL_NAME,
+                CardDbContract.CardListEntry.COL_FACTION,
+                CardDbContract.CardListEntry.COL_LOYAL,
+                CardDbContract.CardListEntry.COL_TYPE,
+                CardDbContract.CardListEntry.COL_COST,
+                CardDbContract.CardListEntry.COL_TEXT,
+                CardDbContract.CardListEntry.COL_SET,
+                CardDbContract.CardListEntry.COL_NUMBER
+        };
+        _warlordCols = new String[] {
+                CardDbContract.WarlordDefEntry.COL_HAND,
+                CardDbContract.WarlordDefEntry.COL_RES,
+                CardDbContract.WarlordDefEntry.COL_ATK,
+                CardDbContract.WarlordDefEntry.COL_BATK,
+                CardDbContract.WarlordDefEntry.COL_LIFE,
+                CardDbContract.WarlordDefEntry.COL_BLIFE,
+                CardDbContract.WarlordDefEntry.COL_BTXT
         };
 
-        _cardCols = new String[]
-        {
-            CardDbContract.COL_ID,
-            CardDbContract.CardListEntry.COL_NAME,
-            CardDbContract.CardListEntry.COL_FACTION,
-            CardDbContract.CardListEntry.COL_LOYAL,
-            CardDbContract.CardListEntry.COL_TYPE,
-            CardDbContract.CardListEntry.COL_COST,
-            CardDbContract.CardListEntry.COL_TEXT,
-            CardDbContract.CardListEntry.COL_SET,
-            CardDbContract.CardListEntry.COL_NUMBER
+        _unitCols = new String[] {
+                CardDbContract.UnitDefEntry.COL_ATK,
+                CardDbContract.UnitDefEntry.COL_LIFE,
+                CardDbContract.UnitDefEntry.COL_COM
+        };
+        _squadCols = new String[] {
+                CardDbContract.SquadDefEntry.COL_WARID,
+                CardDbContract.SquadDefEntry.COL_CARDID,
+                CardDbContract.SquadDefEntry.COL_QTY
         };
 
-        populateDatabase(c);
-        isReady = true;
+        File dbPath = c.getDatabasePath(CardDatabaseHelper.DATABASE_NAME);
+
+        if (dbPath == null)
+            populateDatabase(c);
+        else
+            loadFromDatabase(c);
     }
 
+    //<editor-fold desc="Create Database">
     private void populateDatabase(Context c) {
         try {
             SQLiteDatabase db = CardDatabaseHelper.createAndGetInstance(c).getWritableDatabase();
@@ -122,15 +132,17 @@ public class CardManager {
                 if (parseCard(db, setDbKey, jCard)) {
                     String cName = jCard.getString(CardDbContract.CardListEntry.COL_NAME);
                     int cNumber = jCard.getInt(CardDbContract.CardListEntry.COL_NUMBER);
-                    int wi = queryByName(cName).getInt(0);
+                    Cursor c = queryByExactName(cName);
+                    int wi = c.getInt(0);
                     warlordIds.add(wi);
+                    c.close();
 
                     JSONObject jWar = jCard.getJSONObject("warlord");
                     JSONArray jStarts = jWar.getJSONArray("start");
                     JSONArray jHale = jWar.getJSONArray("hale");
                     JSONArray jBloody = jWar.getJSONArray("bloody");
                     JSONArray jSquad = jWar.getJSONArray("squad");
-                    String jBloodyText = jCard.optString("bloodytext", "");
+                    String jBloodyText = jWar.optString("bloodytext", "");
 
                     Integer[] startVals = new Integer[] { jStarts.getInt(0), jStarts.getInt(1)};
                     Integer[] haleVals = new Integer[] { jHale.getInt(0), jHale.getInt(1)};
@@ -175,6 +187,15 @@ public class CardManager {
             String cost = jCard.optString(CardDbContract.CardListEntry.COL_COST, "-1");
             String text = jCard.getString(CardDbContract.CardListEntry.COL_TEXT);
             Integer number = jCard.getInt(CardDbContract.CardListEntry.COL_NUMBER);
+            Integer shields = jCard.optInt(CardDbContract.ShieldsDefEntry.COL_SHIELDS, 0);
+            Integer attack = -1;
+            Integer life = -1;
+            Integer command = -1;
+            Integer bloodyAtk = -1;
+            Integer bloodyLife = -1;
+            Integer hand = -1;
+            Integer res = -1;
+            String btxt = "";
 
             ContentValues inVal = new ContentValues();
             inVal.put(CardDbContract.CardListEntry.COL_NAME, name);
@@ -187,9 +208,45 @@ public class CardManager {
             inVal.put(CardDbContract.CardListEntry.COL_NUMBER, number);
             db.insert(CardDbContract.CardListEntry.TABLE_NAME, null, inVal);
 
-            Card c = new Card(name, fac, loyal, type, cost, text, cardSet, number);
-            _cardDatabase.put(name, c);
-            _cardByIdDatabase.put(queryByName(name).getInt(0), c);
+            Cursor c =  queryByExactName(name);
+            int cardId = c.getInt(0);
+            c.close();
+
+            if (shields != 0) {
+                ContentValues sVals = new ContentValues();
+                sVals.put(CardDbContract.ShieldsDefEntry.COL_CARDID, cardId);
+                sVals.put(CardDbContract.ShieldsDefEntry.COL_SHIELDS, shields);
+                db.insert(CardDbContract.ShieldsDefEntry.TABLE_NAME, null, sVals);
+            }
+
+            if (type.equals("SY") || type.equals("AR")) {
+                JSONArray jUnit = jCard.getJSONArray("unit");
+                attack = jUnit.getInt(0);
+                life = jUnit.getInt(1);
+                command = jUnit.getInt(2);
+
+                ContentValues uVals = new ContentValues();
+                uVals.put(CardDbContract.UnitDefEntry.COL_CARDID, cardId);
+                uVals.put(CardDbContract.UnitDefEntry.COL_ATK, attack);
+                uVals.put(CardDbContract.UnitDefEntry.COL_LIFE, life);
+                uVals.put(CardDbContract.UnitDefEntry.COL_COM, command);
+                db.insert(CardDbContract.UnitDefEntry.TABLE_NAME, null, uVals);
+            }
+
+            if (type.equals("WR")) {
+                JSONObject jWar = jCard.getJSONObject("warlord");
+                hand = jWar.getJSONArray("start").getInt(0);
+                res = jWar.getJSONArray("start").getInt(1);
+                attack = jWar.getJSONArray("hale").getInt(0);
+                life = jWar.getJSONArray("hale").getInt(1);
+                bloodyAtk = jWar.getJSONArray("bloody").getInt(0);
+                bloodyLife = jWar.getJSONArray("bloody").getInt(1);
+                btxt = jWar.optString("bloodytext", "");
+            }
+
+            Card card = new Card(name, fac, loyal, type, cost, text, cardSet, number, shields, attack, life, command, hand, res, bloodyAtk, bloodyLife, btxt);
+            _cardDatabase.put(name, card);
+            _cardByIdDatabase.put(queryByExactName(name).getInt(0), card);
 
             return (type.equals("WR"));
         } catch (JSONException je) {
@@ -209,7 +266,6 @@ public class CardManager {
             inVals.put(CardDbContract.SquadDefEntry.COL_WARID, warlordId);
             inVals.put(CardDbContract.SquadDefEntry.COL_CARDID, squadId);
             inVals.put(CardDbContract.SquadDefEntry.COL_QTY, squadQty);
-
             db.insert(CardDbContract.SquadDefEntry.TABLE_NAME, null, inVals);
 
             Pair<Card, Integer> p = new Pair<>(selectCardById(squadId), squadQty);
@@ -220,7 +276,7 @@ public class CardManager {
         _squadDatabase.put(wc.getName(), squad);
 
         ContentValues specVals = new ContentValues();
-        specVals.put(CardDbContract.WarlordDefEntry.COL_WARID, warlordId);
+        specVals.put(CardDbContract.WarlordDefEntry.COL_CARDID, warlordId);
         specVals.put(CardDbContract.WarlordDefEntry.COL_HAND, warlordStats.get(0)[0]);
         specVals.put(CardDbContract.WarlordDefEntry.COL_RES, warlordStats.get(0)[1]);
         specVals.put(CardDbContract.WarlordDefEntry.COL_ATK, warlordStats.get(1)[0]);
@@ -230,19 +286,129 @@ public class CardManager {
         specVals.put(CardDbContract.WarlordDefEntry.COL_BTXT, bloodyText);
         db.insert(CardDbContract.WarlordDefEntry.TABLE_NAME, null, specVals);
     }
+    //</editor-fold>
+
+    private void loadFromDatabase(Context c) {
+        SQLiteDatabase db = CardDatabaseHelper.createAndGetInstance(c).getReadableDatabase();
+        Cursor cur = queryAllCards();
+        cur.moveToFirst();
+
+        while (!cur.isAfterLast()) {
+            Integer cardId = cur.getInt(0);
+            String name = cur.getString(cur.getColumnIndexOrThrow(CardDbContract.CardListEntry.COL_NAME));
+            String fac = cur.getString(cur.getColumnIndexOrThrow(CardDbContract.CardListEntry.COL_FACTION));
+            String loyal = cur.getString(cur.getColumnIndexOrThrow(CardDbContract.CardListEntry.COL_LOYAL));
+            String type = cur.getString(cur.getColumnIndexOrThrow(CardDbContract.CardListEntry.COL_TYPE));
+            String cost = cur.getString(cur.getColumnIndexOrThrow(CardDbContract.CardListEntry.COL_COST));
+            String text = cur.getString(cur.getColumnIndexOrThrow(CardDbContract.CardListEntry.COL_TEXT));
+            String cardSet = cur.getString(cur.getColumnIndexOrThrow(CardDbContract.CardListEntry.COL_SET));
+            Integer number = cur.getInt(cur.getColumnIndexOrThrow(CardDbContract.CardListEntry.COL_NUMBER));
+            Integer shields = -1;
+            Integer attack = -1;
+            Integer life = -1;
+            Integer command = -1;
+            Integer bloodyAtk = -1;
+            Integer bloodyLife = -1;
+            Integer hand = -1;
+            Integer res = -1;
+            String btxt = "";
+
+            if (type.equals("EV") || type.equals("AT")) {
+                Cursor sc = queryShieldsById(cardId);
+                sc.moveToFirst();
+                shields = sc.getInt(0);
+                sc.close();
+            }
+
+            if (type.equals("AR") || type.equals("SY")) {
+                Cursor uc = queryUnitById(cardId);
+                uc.moveToFirst();
+                attack = uc.getInt(0);
+                life = uc.getInt(1);
+                command = uc.getInt(2);
+                uc.close();
+            }
+
+            if (type.equals("WR")) {
+                Cursor wc = queryWarlordById(cardId);
+                wc.moveToFirst();
+                hand = wc.getInt(0);
+                res = wc.getInt(1);
+                attack = wc.getInt(2);
+                bloodyAtk = wc.getInt(3);
+                life = wc.getInt(4);
+                bloodyLife = wc.getInt(5);
+                btxt = wc.getString(6);
+                wc.close();
+                _squadDatabase.put(name, new ArrayList<Pair<Card, Integer>>());
+            }
+
+            Card card = new Card(name, fac, loyal, type, cost, text, cardSet, number, shields, attack, life, command, hand, res, bloodyAtk, bloodyLife, btxt);
+
+            if (loyal.equals("SG")) {
+                Cursor sc = querySquadById(cardId);
+                int warlordId = sc.getInt(0);
+                int qty = sc.getInt(2);
+                sc.close();
+                _squadDatabase.get(selectCardById(warlordId).getName()).add(new Pair<>(card, qty));
+            }
+
+            _cardDatabase.put(name, card);
+            _cardByIdDatabase.put(cardId, card);
+            cur.moveToNext();
+        }
+
+        cur.close();
+    }
 
     public Cursor queryAllCards() {
         SQLiteDatabase db = CardDatabaseHelper.getInstance().getReadableDatabase();
-        Cursor c = db.query(_cardTableName, _cardCols, null, null, null, null, null);
+        Cursor c = db.query(CardDbContract.CardListEntry.TABLE_NAME, _cardCols, null, null, null, null, null);
 
         if (c != null)
             c.moveToFirst();
 
         return c;
     }
-    private Cursor queryByName(String name) {
+    public Cursor queryByExactName(String name) {
         SQLiteDatabase db = CardDatabaseHelper.getInstance().getReadableDatabase();
-        Cursor c = db.query(_cardTableName, _cardCols, CardDbContract.CardListEntry.COL_NAME + " = \"" + name + "\"", null, null, null, null);
+        Cursor c = db.query(CardDbContract.CardListEntry.TABLE_NAME, _cardCols, CardDbContract.CardListEntry.COL_NAME + " = \"" + name + "\"", null, null, null, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        return c;
+    }
+    public Cursor queryShieldsById(Integer id) {
+        SQLiteDatabase db = CardDatabaseHelper.getInstance().getReadableDatabase();
+        Cursor c = db.query(CardDbContract.ShieldsDefEntry.TABLE_NAME, new String[] { CardDbContract.ShieldsDefEntry.COL_SHIELDS }, CardDbContract.ShieldsDefEntry.COL_CARDID + " = " + id + "", null, null, null, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        return c;
+    }
+    public Cursor queryUnitById(Integer id) {
+        SQLiteDatabase db = CardDatabaseHelper.getInstance().getReadableDatabase();
+        Cursor c = db.query(CardDbContract.UnitDefEntry.TABLE_NAME, _unitCols, CardDbContract.UnitDefEntry.COL_CARDID + "=" + id, null, null, null, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        return c;
+    }
+    public Cursor queryWarlordById(Integer id) {
+        SQLiteDatabase db = CardDatabaseHelper.getInstance().getReadableDatabase();
+        Cursor c = db.query(CardDbContract.WarlordDefEntry.TABLE_NAME, _warlordCols, CardDbContract.WarlordDefEntry.COL_CARDID + "=" + id, null, null, null, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        return c;
+    }
+    public Cursor querySquadById(Integer id) {
+        SQLiteDatabase db = CardDatabaseHelper.getInstance().getReadableDatabase();
+        Cursor c = db.query(CardDbContract.SquadDefEntry.TABLE_NAME, _squadCols, CardDbContract.SquadDefEntry.COL_CARDID + "=" + id, null, null, null, null);
 
         if (c != null)
             c.moveToFirst();

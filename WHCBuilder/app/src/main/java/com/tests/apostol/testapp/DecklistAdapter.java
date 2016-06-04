@@ -47,15 +47,15 @@ public class DecklistAdapter extends BaseAdapter {
         View v = convertView;
 
         if (v == null)
-            v = ((LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.li_deckbuilder_card, null);
+            v = ((LayoutInflater) _context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.li_draft, null);
 
-        TextView name = (TextView) v.findViewById(R.id.item_deckbuilder_card_name);
+        TextView name = (TextView) v.findViewById(R.id.item_draft_name);
         name.setText(getItem(position).toString());
 
-        TextView qty = (TextView) v.findViewById(R.id.item_deckbuilder_card_qty);
+        TextView qty = (TextView) v.findViewById(R.id.btn_draft_qty);
         qty.setText(String.valueOf(_quantities.get(position)));
 
-        ImageView image = (ImageView) v.findViewById(R.id.item_deckbuilder_card_faction);
+        ImageView image = (ImageView) v.findViewById(R.id.item_draft_faction);
         image.setImageResource(_imageResources.get(position));
 
         return v;

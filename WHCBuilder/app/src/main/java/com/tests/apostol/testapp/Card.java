@@ -1,29 +1,43 @@
 package com.tests.apostol.testapp;
 
+import android.graphics.Color;
+
 import java.util.ArrayList;
 
 public class Card {
     public enum Factions {
-        AM ("Astra Militarum"),
-        CH ("Chaos"),
-        DE ("Dark Eldar"),
-        EL ("Eldar"),
-        OR ("Orks"),
-        NE ("Necrons"),
-        NA ("Neutrals"),
-        SM ("Space Marines"),
-        TA ("Tau"),
-        TY ("Tyranids");
+        AM ("Astra Militarum", Color.GRAY, Color.WHITE, R.drawable.icon_astra_militarum, R.drawable.icon_astra_militarum_dark),
+        CH ("Chaos", Color.parseColor("#CC3700"), Color.WHITE, R.drawable.icon_chaos, R.drawable.icon_chaos),
+        DE ("Dark Eldar", Color.parseColor("#8A2BE2"), Color.WHITE, R.drawable.icon_dark_eldar, R.drawable.icon_dark_eldar),
+        EL ("Eldar", Color.parseColor("#E5E500"), Color.BLACK, R.drawable.icon_eldar, R.drawable.icon_eldar_dark),
+        OR ("Orks", Color.parseColor("#00B200"), Color.BLACK, R.drawable.icon_orks, R.drawable.icon_orks),
+        NE ("Necrons", Color.parseColor("#006400"), Color.WHITE, R.drawable.icon_necrons, R.drawable.icon_necrons),
+        NA ("Neutrals", Color.WHITE, Color.BLACK, R.drawable.icon_blank, R.drawable.icon_blank),
+        SM ("Space Marines", Color.parseColor("#000099"), Color.WHITE, R.drawable.icon_space_marines, R.drawable.icon_space_marines_dark),
+        TA ("Tau", Color.parseColor("#00CCCC"), Color.WHITE, R.drawable.icon_tau, R.drawable.icon_tau_dark),
+        TY ("Tyranids", Color.parseColor("#660000"), Color.WHITE, R.drawable.icon_tyranids, R.drawable.icon_tyranids);
 
         private String _name;
+        private int _color;
+        private int _textColor;
+        private int _icon;
+        private int _darkIcon;
 
-        Factions(String name) {
+        Factions(String name, int colorHex, int textColor, int iconId, int darkIconId) {
             _name = name;
+            _color = colorHex;
+            _textColor = textColor;
+            _icon = iconId;
+            _darkIcon = darkIconId;
         }
 
         public String getFullName() {
             return _name;
         }
+        public int getColor() { return _color; }
+        public int getTextColor() { return _textColor; }
+        public int getIconId() { return _icon; }
+        public int getDarkIconId() { return _darkIcon; }
     }
     public enum Loyalties {
         LO ("Loyal"),
@@ -59,12 +73,20 @@ public class Card {
         }
     }
     public enum CardCycles {
-        CO,
-        WR,
-        GD,
-        PF,
-        LD,
-        DW
+        CO ("Core Set"),
+        WR ("Warlord"),
+        GD ("The Great Devourer"),
+        PF ("Planetfall"),
+        LD ("Legions of Death"),
+        DW ("Death World");
+
+        private String _fullName;
+
+        CardCycles(String fullName) {
+            _fullName = fullName;
+        }
+
+        public String getFullName() { return _fullName; }
     }
     public enum CardSets {
         CO ("Core Set", "core", CardCycles.CO),
@@ -195,7 +217,6 @@ public class Card {
         }
     }
 
-    private int _databaseId;
     private String _name;
     private Factions _faction;
     private Loyalties _loyalty;
@@ -204,8 +225,16 @@ public class Card {
     private String _text;
     private CardSets  _set;
     private int _number;
+    private int _shields;
+    private int _startingResources;
+    private int _startingHand;
+    private int _bloodyAttack;
+    private int _bloodyLife;
+    private String _bloodyText;
+    private int _attack;
+    private int _life;
+    private int _command;
 
-    public int getDatabaseId() { return _databaseId; }
     public String getName() {
         return _name;
     }
@@ -230,8 +259,19 @@ public class Card {
     public int getCardNumber() {
         return _number;
     }
-
-    public Card(String name, String faction, String loyal, String type, String cost, String text, String set, int number) {
+    public int getShields() {
+        return _shields;
+    }
+    public int getStartingResources() { return _startingResources; }
+    public int getStartingHand() { return _startingHand; }
+    public String getBloodyText() { return _bloodyText; }
+    public int getBloodyAttack() { return _bloodyAttack; }
+    public int getBloodyLife() { return _bloodyLife; }
+    public int getAttack() { return _attack; }
+    public int getLife() { return _life; }
+    public int getCommand() { return _command; }
+    public String getDrawableIdString() { return _set.getDatabaseName() + "" + _number; }
+    public Card(String name, String faction, String loyal, String type, String cost, String text, String set, int number, int shields, int atk, int life, int com, int hand, int res, int batk, int blife, String btxt) {
         _name = name;
         _faction = Factions.valueOf(faction);
         _loyalty = Loyalties.valueOf(loyal);
@@ -240,5 +280,46 @@ public class Card {
         _text = text;
         _set = CardSets.getByName(set);
         _number = number;
+        _shields = shields;
+        _startingResources = res;
+        _startingHand = hand;
+        _bloodyAttack = batk;
+        _bloodyLife = blife;
+        _attack = atk;
+        _life = life;
+        _command = com;
+        _bloodyText = btxt;
+    }
+
+    public String getBreakdown() {
+        String breakdownText = "Name: " + getName() + "\n"
+                + "Faction: " + getFaction().getFullName() + "\n";
+
+        if (getType() == CardTypes.WR) {
+            breakdownText += getType().getFullName() + "\n"
+                    + "Attack / Life: " + getAttack() + " / " + getLife() + "\n"
+                    + "Bloody: " + getBloodyAttack() + " / " + getBloodyLife() + "\n"
+                    + "Starting Hand / Resources: " + getStartingHand() + " / " + getStartingResources() + "\n\n"
+                    + "Hale Text: " + getText() + "\n\n";
+
+            if (!getBloodyText().equals(""))
+                breakdownText += "Bloody Text: " + getBloodyText() + "\n\n";
+        }
+        else
+            breakdownText += "Loyalty: " + getLoyalty().getName() + "\n"
+                    + "Card Type: " + getType().getFullName() + "\n"
+                    + "Cost: " + getCost() + "\n\n";
+
+        if (getType() == CardTypes.SY || getType() == CardTypes.AR)
+            breakdownText += "Attack / Life / Command: " + getAttack() + " / " + getLife() + " / " + getCommand() + "\n\n";
+        else if (getType() == CardTypes.AT || getType() == CardTypes.EV)
+            breakdownText += "Shields: " + getShields() + "\n\n";
+
+        if (getType() != CardTypes.WR)
+            breakdownText += "Card Text: " + _text + "\n\n";
+
+        breakdownText += "Set: " + getSet().getName() + " #" + getCardNumber();
+
+        return breakdownText;
     }
 }

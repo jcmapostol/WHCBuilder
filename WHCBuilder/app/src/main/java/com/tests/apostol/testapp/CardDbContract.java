@@ -37,7 +37,7 @@ public final class CardDbContract {
 
     public static abstract class WarlordDefEntry implements BaseColumns {
         public static final String TABLE_NAME = "warlorddefs";
-        public static final String COL_WARID = "cardid";
+        public static final String COL_CARDID = "cardid";
         public static final String COL_HAND = "hand";
         public static final String COL_RES = "resources";
         public static final String COL_ATK = "haleattack";
@@ -45,12 +45,6 @@ public final class CardDbContract {
         public static final String COL_BATK = "bloodyattack";
         public static final String COL_BLIFE = "bloodylife";
         public static final String COL_BTXT = "bloodytext";
-    }
-
-    public static abstract class PlanetDefEntry implements BaseColumns {
-        public static final String TABLE_NAME = "planetdefs";
-        public static final String COL_CARDID = "cardid";
-        public static final String COL_ICON = "icons";
     }
 
     public static abstract class SquadDefEntry implements BaseColumns {

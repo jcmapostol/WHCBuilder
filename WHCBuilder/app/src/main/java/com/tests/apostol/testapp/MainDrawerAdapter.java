@@ -16,7 +16,6 @@ import java.util.List;
 public class MainDrawerAdapter extends BaseAdapter {
     private Context _context;
     private List<String> _menuStrings;
-    private List<Integer> _quantities;
     private List<Integer> _imageResources;
 
     public MainDrawerAdapter(Context context, List<String> navStrings, List<Integer> imageResources)
