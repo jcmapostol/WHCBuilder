@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_arm_root"
+    android:background="@android:color/holo_blue_dark"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <ImageView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_centerVertical="true"
+        android:id="@+id/item_arm_icon"
+        android:src="@drawable/icon_space_marines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="72dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/item_arm_name"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="sans-serif-medium"
+            android:text="Basic Cato"
+            android:textSize="14sp"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/item_arm_warlord"
+            android:textColor="@color/colorWhite"
+            android:fontFamily="sans-serif-medium"
+            android:text="Captain Cato Sicarius"
+            android:gravity="right"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/standard_text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/item_arm_edit"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/icon_edit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+    <ImageButton
+        android:layout_toLeftOf="@+id/item_arm_edit"
+        android:id="@+id/item_arm_delete"
+        android:src="@drawable/icon_trash"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+</RelativeLayout>

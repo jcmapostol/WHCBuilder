@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dl_lex"
+    android:id="@+id/page_lex_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -12,20 +11,22 @@
         android:layout_height="match_parent">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/button_lex_search"
-            android:layout_alignParentRight="true"
+            android:id="@+id/page_lex_btn_search"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_alignParentBottom="true"
             android:src="@drawable/icon_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageButton
-                android:id="@+id/page_card_back"
+                android:id="@+id/page_lex_btn_back"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_back"
@@ -38,53 +39,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.8">
 
+                <!-- Image and alt-text overlap -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.9">
 
-                    <LinearLayout
-                        android:visibility="invisible"
-                        android:id="@+id/page_card_alttextlayout"
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:elevation="7dp" >
-
-                        <ImageView
-                            android:id="@+id/page_card_topbanner"
-                            android:src="@drawable/icon_necrons"
-                            android:layout_marginTop="@dimen/activity_vertical_margin"
-                            android:background="@android:color/holo_green_dark"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="0.1"/>
-
-                        <TextView
-                            android:id="@+id/page_card_alttext"
-                            android:background="@color/colorWhite"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_marginRight="@dimen/activity_horizontal_margin"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Anrakyr the Traveller"
-                            android:textSize="@dimen/standard_text_size"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="0.8"/>
-
-                        <ImageView
-                            android:id="@+id/page_card_botbanner"
-                            android:layout_marginBottom="@dimen/activity_vertical_margin"
-                            android:src="@drawable/icon_necrons"
-                            android:background="@android:color/holo_green_dark"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="0.1"/>
-                    </LinearLayout>
-
                     <ImageView
-                        android:id="@+id/page_card_image"
-                        android:elevation="6dp"
+                        android:id="@+id/page_lex_image"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -92,16 +54,47 @@
                         android:src="@drawable/card_back"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
+
+                    <LinearLayout
+                        android:visibility="invisible"
+                        android:id="@+id/page_lex_alt_root"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/page_lex_alt_ticon"
+                            android:layout_marginTop="@dimen/activity_vertical_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.1"/>
+
+                        <TextView
+                            android:id="@+id/page_lex_alt_text"
+                            android:background="@color/colorWhite"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:fontFamily="sans-serif-medium"
+                            android:textSize="@dimen/standard_text_size"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.8"/>
+
+                        <ImageView
+                            android:id="@+id/page_lex_alt_bicon"
+                            android:layout_marginBottom="@dimen/activity_vertical_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="0.1"/>
+                    </LinearLayout>
                 </RelativeLayout>
 
                 <Button
-                    android:id="@+id/page_card_squadqty"
+                    android:id="@+id/page_lex_btn_qty"
                     android:visibility="invisible"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:gravity="center"
-                    android:background="@android:color/holo_green_dark"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Hale"
                     android:textSize="@dimen/standard_text_size"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -109,7 +102,7 @@
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/page_card_fwd"
+                android:id="@+id/page_lex_btn_fwd"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.1"
@@ -121,7 +114,7 @@
         android:layout_gravity="end"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:name="com.tests.apostol.testapp.LexDrawer"
+        android:name="com.tests.apostol.conquest.layouts.LexDrawer"
         app:layout="@layout/drawer_lex"
         tools:layout="@layout/drawer_lex" />
 </android.support.v4.widget.DrawerLayout>

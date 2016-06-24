@@ -1,12 +1,24 @@
 <resources>
     <string name="app_name">Conquest Deckbuilder</string>
-    <string name="btn_create_deck_text">Deckbuild</string>
-    <string name="btn_view_cards_text">Cardpool</string>
-    <string name="btn_exit_text">Exit</string>
+    <string name="str_no">No</string>
     <string name="main_drawer_open">Open</string>
     <string name="main_drawer_close">Closed</string>
-    <string name="str_draft">Draft</string>
+    <string name="str_armies">Armies</string>
     <string name="str_lex">Lexicanum</string>
-    <string name="str_exterminatus">Exterminatus</string>
-    <string name="str_reserve">Reserves</string>
+    <string name="str_exterm">Exterminatus</string>
+    <string name="str_draft">Draft</string>
+    <string name="str_lex_hale">Show Hale</string>
+    <string name="str_lex_bloody">Show Bloody</string>
+    <string name="str_draft_select">Select Warlord</string>
+    <string name="str_search">Search</string>
+    <string name="str_db">Deckbuilder</string>
+    <string name="str_stats">Statistics</string>
+    <string name="str_config">Configurations</string>
+    <string name="str_sim">Simulator</string>
+    <string name="str_details">Details</string>
+    <string name="deck_desc">Deck Description</string>
+    <string name="deck_name">Deck Name</string>
+    <string name="str_cancel">Cancel</string>
+    <string name="str_proceed">Proceed</string>
+    <string name="str_overwrite">Overwrite</string>
 </resources>

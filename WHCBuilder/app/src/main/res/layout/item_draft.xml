@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_draft_root"
+    android:background="@android:color/holo_blue_dark"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <ImageView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_centerVertical="true"
+        android:id="@+id/item_draft_icon"
+        android:src="@drawable/icon_space_marines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginLeft="72dp"
+        android:id="@+id/item_draft_text"
+        android:fontFamily="sans-serif-medium"
+        android:text="Drop Pod Assault"
+        android:textSize="@dimen/standard_text_size"
+        android:gravity="right"
+        android:layout_centerVertical="true"
+        android:maxWidth="300dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/item_draft_qty"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentRight="true"
+        android:textAlignment="center"
+        android:textSize="@dimen/standard_text_size"
+        android:text="3"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

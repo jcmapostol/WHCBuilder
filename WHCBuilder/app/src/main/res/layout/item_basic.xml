@@ -1,0 +1,26 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_basic_root"
+    android:background="@android:color/holo_green_dark"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/item_basic_icon"
+        android:src="@drawable/icon_necrons"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/item_basic_text"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="72dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Anrakyr the Traveller"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/standard_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>
